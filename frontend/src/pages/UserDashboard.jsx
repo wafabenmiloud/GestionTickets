@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getTickets } from "../services/ticketService";
+import { Link } from 'react-router-dom';
 
 export default function UserDashboard() {
   const [tickets, setTickets] = useState([]);
