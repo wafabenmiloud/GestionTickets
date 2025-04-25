@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import TicketList from './pages/TicketList';
+import Home from './pages/Home';
+import AdminDashboard from './pages/AdminDashboard';
+import UserDashboard from './pages/UserDashboard';
+import CreateTicket from './pages/CreateTicket';
+import EditTicket from './pages/EditTicket';
 
 function App() {
+  const role = localStorage.getItem('role');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <nav>
+        <Link to="/">Accueil</Link> | 
+        <Link to="/tickets">Tickets</Link> | 
+        <Link to="/create">Nouveau Ticket</Link>
+
+        <Link to="/login">Connexion</Link> | 
+        <Link to="/register">Inscription</Link>
+        {role === 'admin' && <Link to="/admin">Dashboard Admin</Link>}
+        {role === 'user' && <Link to="/dashboard">Mon tableau de bord</Link>}
+
+      </nav>
+      <Routes>
+      <Route path="/create" element={<CreateTicket />} />
+      <Route path="/edit/:id" element={<EditTicket />} />
+
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/tickets" element={<TicketList />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
+      </Routes>
+    </Router>
   );
 }
 

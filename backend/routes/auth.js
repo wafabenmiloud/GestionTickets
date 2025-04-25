@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
     return res.status(401).send('Invalid credentials');
   }
   const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
-  res.json({ token });
+  res.json({ token, role: user.role, name: user.name });
 });
 
 module.exports = router;
