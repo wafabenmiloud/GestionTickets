@@ -6,6 +6,8 @@ import AuthContext from "../context/AuthContext";
 
 export default function LoginPage() {
   const { getLoggedIn } = useContext(AuthContext);
+  const { userInfo } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const [data, setData] = useState({ email: "", password: "" });
@@ -21,8 +23,12 @@ export default function LoginPage() {
       const url = "http://localhost:5000/api/auth/login"; 
       await axios.post(url, data, { withCredentials: true });
       await getLoggedIn();
-      navigate('/');
-    } catch (error) {
+
+if (userInfo.role === "admin") {
+        navigate("/admin");  
+      } else {
+        navigate("/dashboard");  
+      }    } catch (error) {
       if (
         error.response &&
         error.response.status >= 400 &&

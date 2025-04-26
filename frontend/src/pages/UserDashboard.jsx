@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from 'react-router-dom';
 import AuthContext from "../context/AuthContext";  // Import the AuthContext
 import axios from 'axios';
+import './AdminDashboard.css';
 
 export default function UserDashboard() {
   const { userInfo } = useContext(AuthContext);  // Access user info from context
@@ -17,15 +18,14 @@ export default function UserDashboard() {
     }
 
     const fetchTickets = async () => {
-      const res = await axios.get("http://localhost:5000/api/tickets", {
-        withCredentials: true,
-      });
-        const userTickets = res.data.filter(
-        (ticket) => ticket.createdBy?.email === userInfo.email  // Filter tickets by user email
+      const res = await axios.get("http://localhost:5000/api/tickets", { withCredentials: true });
+      const userTickets = res.data.filter(
+        (ticket) => ticket.createdBy?._id === userInfo.id
       );
       setTickets(userTickets);
       setFilteredTickets(userTickets);
     };
+    
 
     fetchTickets();
   }, [userInfo]);
@@ -41,7 +41,7 @@ export default function UserDashboard() {
   }, [statusFilter, tickets]);
 
   return (
-    <div>
+    <div className="admin-dashboard">
       <h2>Mes Tickets</h2>
       <div style={{ marginBottom: "1rem" }}>
         <label>Filtrer par statut: </label>
@@ -59,14 +59,12 @@ export default function UserDashboard() {
       {filteredTickets.length === 0 ? (
         <p>Vous n'avez soumis aucun ticket.</p>
       ) : (
-        <table border="1" cellPadding="8">
+        <table className="ticket-table" border="1" cellPadding="8">
           <thead>
             <tr>
               <th>Titre</th>
               <th>Statut</th>
-              <th>Assigné à</th>
               <th>Créé le</th>
-              <th>Modifier</th>
             </tr>
           </thead>
           <tbody>
@@ -74,11 +72,8 @@ export default function UserDashboard() {
               <tr key={ticket._id}>
                 <td>{ticket.title}</td>
                 <td>{ticket.status}</td>
-                <td>{ticket.assignedTo?.name || "Non assigné"}</td>
                 <td>{new Date(ticket.createdAt).toLocaleString()}</td>
-                <td>
-                  <Link to={`/edit/${ticket._id}`}>Modifier</Link>
-                </td>
+              
               </tr>
             ))}
           </tbody>

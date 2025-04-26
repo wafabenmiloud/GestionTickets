@@ -43,10 +43,10 @@ export default function Header() {
   const navigate = useNavigate();
 
   async function logout() {
-    await axios.get("http://localhost:5000/logout");
+    await axios.get("http://localhost:5000/api/auth/logout");
 
     await getLoggedIn();
-    navigate("/");
+    navigate("/login");
 
     if (window.location.pathname === "/") {
       window.location.reload();
@@ -55,9 +55,12 @@ export default function Header() {
 
   return (
     <header>
-      <Link to="/" className="logo">
-        <img src={logo} alt="logo" />
-      </Link>
+    {loggedIn && userInfo?.role === 'admin' &&<Link to="/"  className="logo">
+  <img src={logo} alt="logo"/>
+</Link>}
+{(userInfo?.role != 'admin') &&
+  <img src={logo} alt="logo" width={220}/>
+}
       <nav>
         {!loggedIn && (
           <>
@@ -71,9 +74,9 @@ export default function Header() {
         )}
         {loggedIn && (
          <>
-         <Link className="link" to="/">Tickets</Link>
-         {userInfo.role === 'admin' && <Link  className="link2" to="/admin">Dashboard</Link>}
-          {userInfo.role === 'user' && <Link className="link2" to="/dashboard">Mon tableau de bord</Link>}
+          {userInfo&& userInfo?.role === 'admin' &&<Link className="link" to="/">Tickets</Link>}
+         {userInfo&& userInfo?.role === 'admin' && <Link  className="link2" to="/admin">Dashboard</Link>}
+          {userInfo&& userInfo?.role === 'user' && <Link className="link2" to="/dashboard">Mon tableau de bord</Link>}
          <Link to="/create">
            <button>
              {" "}
@@ -81,7 +84,7 @@ export default function Header() {
            </button>
          </Link>
          <div>
-      <Avatar size={45} color="#999" name={userInfo.name} />
+         {userInfo&&<Avatar size={45} color="#999" name={userInfo.name} />}
     </div>
          <AiOutlineLogout className="logout" onClick={logout} />
        </>

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { createTicket, getTickets, updateTicket,getTicketById } = require('../controllers/ticketController');
-const authMiddleware = require('../authMiddleware');
+const {createTicket,getTicketById,getTickets,updateTicketStatus,assignAgent} = require('../controllers/ticketController');
 
-router.post('/', authMiddleware, createTicket);
-router.get('/', authMiddleware, getTickets);
-router.put('/:id', authMiddleware, updateTicket);
-router.get('/:id', authMiddleware, getTicketById);
+
+router.post('/create', createTicket);
+router.get('/', getTickets);
+router.get('/:id', getTicketById);
+router.put('/status/:id', updateTicketStatus);
+router.put('/assign/:id', assignAgent);
 
 module.exports = router;

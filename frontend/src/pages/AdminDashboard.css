@@ -1,0 +1,88 @@
+.admin-dashboard {
+    padding: 2rem;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+  }
+  
+  .admin-dashboard h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+ .admin-dashboard  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-dashboard .filter {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .admin-dashboard .filter label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .admin-dashboard  .ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-dashboard .ticket-table th,
+  .ticket-table td {
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  .admin-dashboard .ticket-table th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .admin-dashboard .ticket-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .admin-dashboard .ticket-table select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .admin-dashboard .create-agent-form {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .admin-dashboard .create-agent-form input {
+    margin: 5px 0;
+    display: block;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .admin-dashboard .create-agent-form button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .admin-dashboard.create-agent-form button:hover {
+    background-color: #45a049;
+  }
+  

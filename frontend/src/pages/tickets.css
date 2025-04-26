@@ -1,0 +1,70 @@
+/* Form Container */
+.ticket-form form {
+    background-color: #ffffff;
+    padding: 30px 3px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  /* Form Title */
+  .ticket-form h2 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Input Fields */
+  .ticket-form  input[type="text"],
+  .ticket-form textarea {
+    width: 60%;
+    margin: auto;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Focus Effects */
+  .ticket-form input[type="text"]:focus,
+  .ticket-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Submit Button */
+  .ticket-form button[type="submit"] {
+    width: 62%;
+    margin: auto;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button Hover Effect */
+  .ticket-form  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Error Message */
+  .ticket-form .error-message {
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 10px;
+    border: 1px solid #d8000c;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  

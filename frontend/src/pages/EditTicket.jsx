@@ -15,7 +15,7 @@ export default function EditTicket() {
       const ticketRes = await axios.get(`http://localhost:5000/api/tickets/${id}`);
         setTicket(ticketRes.data);
 
-        const usersRes = await axios.get('http://localhost:5000/api/users');
+        const usersRes = await axios.get('http://localhost:5000/api/auth/users');
         const agentList = usersRes.data.filter((u) => u.role === 'agent');
         setAgents(agentList);
     };

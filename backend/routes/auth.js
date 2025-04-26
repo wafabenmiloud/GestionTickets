@@ -9,6 +9,6 @@ router.post('/login', signinUser);
 router.get('/logout',logout);
 router.get('/loggedIn',authenticateToken);
 
-router.get('/users',getUsers)
+router.get('/users',getUsers);
 
 module.exports = router;

@@ -3,6 +3,7 @@ import Ticket from "../components/Ticket"; // Component to display a ticket
 import { useEffect, useState } from "react";
 import { BsFilter } from "react-icons/bs";
 import ScrollToTopButton from "../components/ScrollToTopButton";
+import "./Home.css";
 
 export default function IndexPage() {
   const [tickets, setTickets] = useState([]);
@@ -14,7 +15,7 @@ export default function IndexPage() {
 
   useEffect(() => {
     axios
-      .get("https://yourapiurl.com/tickets") 
+      .get("http://localhost:5000/api/tickets") 
       .then((response) => {
         setTickets(response.data);
         setSearchedTickets(response.data);
@@ -55,39 +56,48 @@ export default function IndexPage() {
 
   return (
     <div>
-      <div className="main-desc">
-        <p>{searchedTickets?.length} Tickets </p>
-        <div className="main-filter">
-          <input
-            type="text"
-            placeholder="Search"
-            onChange={(e) => searchTickets(e)}
-          />
-          {/* <div className="main-filter-item">
-            <BsFilter size={20} />
-          </div> */}
-        </div>
+    <div className="main-desc">
+      <p>{searchedTickets?.length} Tickets </p>
+      <div className="main-filter">
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(e) => searchTickets(e)}
+        />
+      
       </div>
-
+    </div>
+  
+    <div className="ticket-container">
       {searchedTickets && searchedTickets.length > 0 ? (
-        ticketsToShow.map((ticket) => <Ticket key={ticket._id} {...ticket} />) // Display tickets
+        ticketsToShow.map((ticket) => (
+          <div className="ticket-card" key={ticket._id}>
+            <h3>{ticket.title}</h3>
+            <p>{ticket.description}</p>
+            <div className={`ticket-status ${ticket.status.toLowerCase()}`}>
+              {ticket.status}
+            </div>
+          </div>
+        ))
       ) : (
         <p>{searchedTickets === null ? "Loading..." : "No tickets found."}</p>
       )}
-
-      <div className="pagination">
-        {Array.from({ length: pagesCount }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageChange(i + 1)}
-            disabled={currentPage === i + 1}
-            className={currentPage === i + 1 ? "active" : ""}>
-            {i + 1}
-          </button>
-        ))}
-      </div>
-
-      <ScrollToTopButton />
     </div>
+  
+    <div className="pagination">
+      {Array.from({ length: pagesCount }, (_, i) => (
+        <button
+          key={i}
+          onClick={() => handlePageChange(i + 1)}
+          disabled={currentPage === i + 1}
+          className={currentPage === i + 1 ? "active" : ""}>
+          {i + 1}
+        </button>
+      ))}
+    </div>
+  
+    <ScrollToTopButton />
+  </div>
+  
   );
 }

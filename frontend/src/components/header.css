@@ -10,8 +10,8 @@ header a {
   text-decoration: none;
   color: inherit;
 }
-header .logo {
-  width: 14rem;
+header .logo img{
+  width: 300px;
 }
 header nav {
   padding: 1rem;
@@ -19,6 +19,7 @@ header nav {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 15px;
 }
 header .logout {
   color: teal;

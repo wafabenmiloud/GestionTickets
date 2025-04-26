@@ -1,0 +1,156 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: auto;
+    padding: 0;
+    background-color: #fff;
+    width: 80%;
+  }
+  
+  .main-desc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f6f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .main-desc p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .main-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .main-filter input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 250px;
+  }
+  
+  .main-filter-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF8749;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .main-filter-item:hover {
+    background-color: #0056b3;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .pagination button:hover {
+    background-color: #0056b3;
+  }
+  
+  .pagination button:disabled {
+    background-color: #d1d1d1;
+    cursor: not-allowed;
+  }
+  
+  .pagination button.active {
+    background-color: #0056b3;
+    font-weight: 600;
+  }
+  
+  .ticket-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .ticket-container .ticket-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .ticket-container .ticket-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .ticket-card h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: #333;
+  }
+  
+  .ticket-card p {
+    font-size: 1rem;
+    color: #666;
+    margin: 10px 0;
+  }
+  
+  .ticket-card .ticket-status {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .ticket-card .ticket-status.closed {
+    background-color: #28a745;
+  }
+  
+  .ticket-card .ticket-status.in-progress {
+    background-color: #ffc107;
+  }
+  
+  .ticket-card .ticket-status.open {
+    background-color: #dc3545;
+  }
+  
+  .scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+  }
+  
+  .scroll-to-top.show {
+    display: block;
+  }
+  
+  .scroll-to-top:hover {
+    background-color: #0056b3;
+  }
+  
