@@ -26,9 +26,13 @@ export default function LoginPage() {
 
 if (userInfo.role === "admin") {
         navigate("/admin");  
-      } else {
+      } else if (userInfo.role === "user") {
         navigate("/dashboard");  
-      }    } catch (error) {
+      }  
+    else {
+      navigate("/dashboard2");  
+    }
+    } catch (error) {
       if (
         error.response &&
         error.response.status >= 400 &&

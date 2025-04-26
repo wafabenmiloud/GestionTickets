@@ -58,7 +58,7 @@ export default function Header() {
     {loggedIn && userInfo?.role === 'admin' &&<Link to="/"  className="logo">
   <img src={logo} alt="logo"/>
 </Link>}
-{(userInfo?.role != 'admin') &&
+{(userInfo?.role != 'admin')  &&
   <img src={logo} alt="logo" width={220}/>
 }
       <nav>
@@ -76,13 +76,13 @@ export default function Header() {
          <>
           {userInfo&& userInfo?.role === 'admin' &&<Link className="link" to="/">Tickets</Link>}
          {userInfo&& userInfo?.role === 'admin' && <Link  className="link2" to="/admin">Dashboard</Link>}
-          {userInfo&& userInfo?.role === 'user' && <Link className="link2" to="/dashboard">Mon tableau de bord</Link>}
-         <Link to="/create">
+          {userInfo&& (userInfo?.role === 'user' || userInfo.role === "agent") && <Link className="link2" to="/dashboard">Mon tableau de bord</Link>}
+          {userInfo&& (userInfo?.role === 'user' || userInfo.role === "admin") &&  <Link to="/create">
            <button>
              {" "}
              Nouveau Ticket
            </button>
-         </Link>
+         </Link>}
          <div>
          {userInfo&&<Avatar size={45} color="#999" name={userInfo.name} />}
     </div>

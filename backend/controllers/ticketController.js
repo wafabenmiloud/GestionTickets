@@ -40,13 +40,22 @@ exports.createTicket = async (req, res) => {
 exports.getTickets = async (req, res) => {
   try {
     const { token } = req.cookies;
+
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       if (err) throw err;
-      const tickets = await Ticket.find()
-      .populate('createdBy', 'email name')
-      .populate('assignedTo', 'name');
 
-    res.json(tickets);
+      let tickets;
+      if (info.role === "agent") {
+        tickets = await Ticket.find({ assignedTo: info.id })
+          .populate('createdBy', 'email name')
+          .populate('assignedTo', 'name');
+      } else {
+        tickets = await Ticket.find()
+          .populate('createdBy', 'email name')
+          .populate('assignedTo', 'name');
+      }
+
+      res.json(tickets);
     });
   
   } catch (error) {
@@ -54,6 +63,7 @@ exports.getTickets = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Update ticket status
 exports.updateTicketStatus = async (req, res) => {
