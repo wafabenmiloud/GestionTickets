@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { getTickets } from "../services/ticketService";
-import { getUsers } from '../services/userService';
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import axios from 'axios';
 
 export default function AdminDashboard() {
+  const { userInfo } = useContext(AuthContext);  // Accessing user info from context
   const [tickets, setTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [statusFilter, setStatusFilter] = useState('');
   const [agentFilter, setAgentFilter] = useState('');
   const [agents, setAgents] = useState([]);
 
-   useEffect(() => {
+  useEffect(() => {
+    // Admin role validation based on AuthContext
+    if (userInfo.role !== "admin") {
+      alert("Accès réservé aux administrateurs !");
+      window.location.href = "/";  // Redirect to home if not admin
+      return;
+    }
+
     const fetchData = async () => {
-      const res = await getTickets();
-      const userRes = await getUsers();
+      const ticketRes = await axios.get("http://localhost:5000/api/tickets/",{ withCredentials: true });
+      const userRes = await axios.get("http://localhost:5000/api/auth/users", { withCredentials: true });
       const onlyAgents = userRes.data.filter((u) => u.role === 'agent');
 
-      setTickets(res.data);
-      setFilteredTickets(res.data);
+
+      setTickets(ticketRes.data);
+      setFilteredTickets(ticketRes.data);
       setAgents(onlyAgents);
     };
 
     fetchData();
-  }, []);
+  }, [userInfo.role]); 
+
   useEffect(() => {
     let filtered = tickets;
 
@@ -35,14 +46,6 @@ export default function AdminDashboard() {
 
     setFilteredTickets(filtered);
   }, [statusFilter, agentFilter, tickets]);
-
-  useEffect(() => {
-    const role = localStorage.getItem("role");
-    if (role !== "admin") {
-      alert("Accès réservé aux administrateurs !");
-      window.location.href = "/";
-    }
-  }, []);
 
   return (
     <div>

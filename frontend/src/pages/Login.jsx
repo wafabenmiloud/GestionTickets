@@ -1,30 +1,64 @@
-import React, { useState } from 'react';
-import API from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from "react"; 
+import { useNavigate } from "react-router-dom";
+import "./RegisterPage.css";
+import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
-export default function Login() {
-  const [form, setForm] = useState({ email: '', password: '' });
+export default function LoginPage() {
+  const { getLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [data, setData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post('/auth/login', form);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('role', data.role);
-      localStorage.setItem('name', data.name);
+      const url = "http://localhost:5000/api/auth/login"; 
+      await axios.post(url, data, { withCredentials: true });
+      await getLoggedIn();
       navigate('/');
-    } catch (err) {
-      alert('Email ou mot de passe incorrect');
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
+        setError(error.response.data.message);
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Connexion</h2>
-      <input placeholder="Email" onChange={(e) => setForm({ ...form, email: e.target.value })} />
-      <input type="password" placeholder="Mot de passe" onChange={(e) => setForm({ ...form, password: e.target.value })} />
-      <button type="submit">Se connecter</button>
-    </form>
+    <div className="auth">
+      <form className="login" onSubmit={handleSubmit}>
+        <h3>Welcome back! Please log in</h3>
+
+        <input
+          type="email"
+          placeholder="Email"
+          name="email"
+          onChange={handleChange}
+          value={data.email}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          name="password"
+          onChange={handleChange}
+          value={data.password}
+          required
+        />
+        {error && <div className="error">{error}</div>}
+        <button type="submit">
+          Sign In
+        </button>
+      </form>
+    </div>
   );
 }

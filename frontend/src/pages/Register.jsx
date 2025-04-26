@@ -1,26 +1,68 @@
-import React, { useState } from 'react';
-import API from '../services/api';
+import React, { useContext, useState } from "react";
+import "./RegisterPage.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 export default function Register() {
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const { getLoggedIn } = useContext(AuthContext);
+  const [data, setData] = useState({
+    name: "",        // <-- changed username to name
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post('/auth/register', form);
-      alert('Compte créé ! Vous pouvez vous connecter.');
-    } catch (err) {
-      alert('Erreur lors de l’inscription');
+      const url = "http://localhost:5000/api/auth/register"; // <-- correct URL
+      await axios.post(url, data, { withCredentials: true }); // <-- important for cookies
+      await getLoggedIn();
+      navigate("/");
+    } catch (error) {
+      if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+        setError(error.response.data.message);
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Inscription</h2>
-      <input placeholder="Nom" onChange={(e) => setForm({ ...form, name: e.target.value })} />
-      <input placeholder="Email" onChange={(e) => setForm({ ...form, email: e.target.value })} />
-      <input type="password" placeholder="Mot de passe" onChange={(e) => setForm({ ...form, password: e.target.value })} />
-      <button type="submit">S’inscrire</button>
-    </form>
+    <div className="auth">
+      <form className="register" onSubmit={handleSubmit}>
+        <h3>Get started</h3>
+        <input
+          type="text"
+          placeholder="Name"
+          name="name"          // <-- changed name from username to name
+          onChange={handleChange}
+          value={data.name}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          name="email"
+          onChange={handleChange}
+          value={data.email}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          name="password"
+          onChange={handleChange}
+          value={data.password}
+          required
+        />
+        {error && <div className="error">{error}</div>}
+        <button type="submit">Sign Up</button> {/* <-- fixed typo */}
+      </form>
+    </div>
   );
 }

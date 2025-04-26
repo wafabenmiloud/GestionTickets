@@ -1,24 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { getTickets } from "../services/ticketService";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from 'react-router-dom';
+import AuthContext from "../context/AuthContext";  // Import the AuthContext
+import axios from 'axios';
 
 export default function UserDashboard() {
+  const { userInfo } = useContext(AuthContext);  // Access user info from context
   const [tickets, setTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
-  const currentUser = localStorage.getItem("name");
 
   useEffect(() => {
+    if (!userInfo || !userInfo.id) {
+      alert("Veuillez vous connecter pour accéder à vos tickets.");
+      window.location.href = "/login";
+      return;
+    }
+
     const fetchTickets = async () => {
-      const res = await getTickets();
-      const userTickets = res.data.filter(
-        (ticket) => ticket.createdBy?.name === currentUser
+      const res = await axios.get("http://localhost:5000/api/tickets", {
+        withCredentials: true,
+      });
+        const userTickets = res.data.filter(
+        (ticket) => ticket.createdBy?.email === userInfo.email  // Filter tickets by user email
       );
       setTickets(userTickets);
       setFilteredTickets(userTickets);
     };
+
     fetchTickets();
-  }, [currentUser]);
+  }, [userInfo]);
 
   useEffect(() => {
     if (statusFilter) {
